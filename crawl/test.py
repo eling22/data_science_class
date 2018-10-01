@@ -1,14 +1,26 @@
-import operator
-list_str = ['123','11','13','ba','b1','b12']
+import threading
+import os
+import re
+import requests
+import time
 
-test = [[12, 'tall', 'blue', 1],
-[2, 'short', 'red', 9],
-[4, 'tall', 'blue', 13]]
+t_start = time.time()
 
-#list_str.sort()
+threads = []
+for i in range(35):
+    print(1992+i)
+    url = "https://www.ptt.cc/bbs/Beauty/index"+ str(1992+i) +".html"
+    threads.append(threading.Thread(target = requests.get, args = (url,)))
+    threads[i].start()
 
-#print(list_str)
+# 主執行緒繼續執行自己的工作
+# ...
 
-print(sorted(test,key=lambda x: (x[1],x[3])))
+# 等待所有子執行緒結束
+for i in range(35):
+    threads[i].join()
 
-#print(sorted(test,key=operator.itemgetter(1,0)))
+print("Done.")
+
+t_end = time.time()
+print ("It cost %f sec" % (t_end - t_start))

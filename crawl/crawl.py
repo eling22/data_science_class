@@ -54,7 +54,7 @@ def main():
             if part.find(class_="nrec").string == "爆" :
                 file_po.write(date + ',' + title + ',' + url + '\n')
         
-        time.sleep(0.1)
+        time.sleep(0.5)
 
     file_ar.close()
     file_po.close()

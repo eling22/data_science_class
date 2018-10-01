@@ -3,6 +3,7 @@ import re
 import requests
 import time
 from bs4 import BeautifulSoup
+import tool
 
 class UserList :
     def __init__(self) :
@@ -23,11 +24,7 @@ class UserList :
     
     def getGoodTagId(self) :
         sort_list = sorted(self.dic_good.items(), key=lambda x: x[0])
-        print("================")
-        print(sort_list)
         sort_list = sorted(sort_list, key=lambda x: x[1], reverse = True)
-        print("================")
-        print(sort_list)
         for index in range(10) :
             key = sort_list[index]
             print("like #"+ str(index+1) +": {} {}".format(key[0], key[1]))
@@ -42,23 +39,14 @@ class UserList :
 
 def main():
 
+    t_start = time.time()
+
     start_date = 101
     end_date = 102
 
-    file_ar = open(os.getcwd() +'\\crawl\\'+'all_articles.txt','r',encoding = 'utf8')
-    content_ar = file_ar.read()
-    file_ar.close()
+    content_ar = tool.ReadFile("all_articles.txt")
 
-    url_list = []
-    for line in content_ar.split('\n') :
-        part = line.split(',')
-        if len(part) == 3 :
-            date = part[0]
-            if int(date) < start_date or int(date) > end_date :
-                continue
-            #title = part[1]
-            url = part[2]
-            url_list.append(url)
+    url_list = tool.GetUrlFromTxt(content_ar,start_date,end_date)
 
     all_like = 0
     all_boo = 0
@@ -84,12 +72,15 @@ def main():
             #print (tag)
             #print (userid)
             user_list.add(userid,tag)
-        time.sleep(0.1)
+        time.sleep(0.5)
 
     print("all like: " + str(all_like))
     print("all boo: " + str(all_boo))
     user_list.getGoodTagId()
     user_list.getBadTagId()
+
+    t_end = time.time()
+    print ("It cost %f sec" % (t_end - t_start))
 
 if __name__ == '__main__':
     main()
