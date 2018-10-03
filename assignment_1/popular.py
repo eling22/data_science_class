@@ -1,16 +1,9 @@
-import os
-import re
 import requests
 import time
-from bs4 import BeautifulSoup
 import tool
 
-
-def main():
+def main(start_date,end_date):
     t_start = time.time()
-
-    start_date = 101
-    end_date = 201
 
     output_file = tool.OpenWriteFile("popular["+str(start_date)+"-"+str(end_date)+"].txt")
     content_po = tool.ReadFile("all_popular.txt")
@@ -25,21 +18,11 @@ def main():
 
         time.sleep(0.5)
         content_url = requests.get(url).text
-        content_html = BeautifulSoup(content_url,'html.parser')
-        pic_list = content_html.find_all(target = "_blank")
-        for pic in pic_list : 
-            pic_link = pic.get('href')
-            pic_extension = tool.GetFileExtension(pic_link)
-            extension_list = ["jpg", "jpeg", "png", "gif"]
-            if pic_extension not in extension_list :
-                continue
-            #print(pic_link)
-            output_file.write(pic_link+"\n")
+        pic_url_list = tool.GetPicUrl(content_url)
+        for pic_url in pic_url_list :
+            output_file.write(pic_url + "\n")
+
 
     output_file.close()
     t_end = time.time()
     print ("It cost %f sec" % (t_end - t_start))
-
-
-if __name__ == '__main__':
-    main()
