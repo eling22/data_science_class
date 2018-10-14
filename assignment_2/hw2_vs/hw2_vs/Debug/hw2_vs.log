@@ -1,2 +1,21 @@
-﻿  hw2_vs.cpp
+﻿  fpgrowth.cpp
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(22): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(24): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(34): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(36): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(53): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(61): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(74): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(129): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(139): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(151): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(180): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(195): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(224): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(233): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(268): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(278): warning C4018: '<': signed/unsigned 不相符
+c:\users\eling\desktop\資料科學\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(291): warning C4018: '<': signed/unsigned 不相符
+  main.cpp
+  正在產生程式碼...
   hw2_vs.vcxproj -> C:\Users\eling\Desktop\資料科學\data_science_class\assignment_2\hw2_vs\Debug\hw2_vs.exe
