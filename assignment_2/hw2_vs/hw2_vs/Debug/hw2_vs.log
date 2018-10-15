@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ﻿  fpgrowth.cpp
 c:\users\eling\documents\github\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(22): warning C4018: '<': signed/unsigned 不相符
 c:\users\eling\documents\github\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(24): warning C4018: '<': signed/unsigned 不相符
@@ -21,6 +22,8 @@ c:\users\eling\documents\github\data_science_class\assignment_2\hw2_vs\hw2_vs\fp
 c:\users\eling\documents\github\data_science_class\assignment_2\hw2_vs\hw2_vs\fpgrowth.cpp(319): warning C4018: '<': signed/unsigned 不相符
   hw2_vs.vcxproj -> C:\Users\eling\Documents\GitHub\data_science_class\assignment_2\hw2_vs\Debug\hw2_vs.exe
 =======
+=======
+>>>>>>> parent of 8fc147c... //hw2
 ﻿  hw2_vs.cpp
   hw2_vs.vcxproj -> C:\Users\eling\Desktop\資料科學\data_science_class\assignment_2\hw2_vs\Debug\hw2_vs.exe
 >>>>>>> parent of 8fc147c... //hw2
