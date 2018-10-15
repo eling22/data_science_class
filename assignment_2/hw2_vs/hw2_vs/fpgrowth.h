@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <bitset>  
+//#include <cmath>
 using namespace std;
 
 struct Item
@@ -73,14 +75,13 @@ class NumVerticalTree : public Tree
 {
 public:
 	NumVerticalTree(vector<NodePtr> list, double support_min);
-	void Set(vector<NodePtr> list);
 	void ShowTreeList();
-
 private:
 	double support_min;
 	vector<Item> temp;
 	vector<vector<Item>> pre_set;
 
+	void Set(vector<NodePtr> list);
 	Node* SetLoop(Node* ptr, Node* ft_ptr, int times);
 	void Set_pre_set(Node* ptr);
 	void ShowVector(vector<Item> arr);
