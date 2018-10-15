@@ -18,5 +18,28 @@
     <ClCompile Include="main.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="fpgrowth.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="sample2.in">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="sample2_0.1.out">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="test.in">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fpgrowth.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

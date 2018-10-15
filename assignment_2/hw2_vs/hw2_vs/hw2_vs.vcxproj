@@ -153,7 +153,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fpgrowth.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="makefile" />
+    <None Include="sample2.in" />
+    <None Include="sample2_0.1.out" />
+    <None Include="test.in" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fpgrowth.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
