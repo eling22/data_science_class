@@ -110,7 +110,6 @@ map<int, int> FPGrowth::Get_num_index_map()
 void FPGrowth::Show(int num)
 {
 	hlist_.Show_htable(num);
-	num_vtreelist_[hlist_.GetIndex(num)].Show();
 	num_vtreelist_[hlist_.GetIndex(num)].ShowTreeList();
 }
 
@@ -123,7 +122,6 @@ Tree::Tree()
 void Tree::Show()
 {
 	ShowLoop(root);
-	cout << endl;
 }
 
 int Tree::getIndexByValue(vector<NodePtr>& arr, int value)
@@ -264,14 +262,13 @@ Node * NumVerticalTree::SetLoop(Node * list_ptr, Node * tree_ptr, int times)
 
 void NumVerticalTree::Set_pre_set(Node* ptr)
 {
-	//if (ptr->childs_.size() == 0) {
-	//	pre_set.push_back(temp);
-	//}
+	if (ptr->childs_.size() == 0) {
+		pre_set.push_back(temp);
+	}
 	for (int i = 0; i < ptr->childs_.size(); i++) {
 		Item item{ ptr->childs_[i].tptr_->num_ ,ptr->childs_[i].tptr_->times_ };
 		temp.push_back(item);
 		Set_pre_set(ptr->childs_[i].tptr_);
-		pre_set.push_back(temp);
 		temp.pop_back();
 	}
 }
@@ -279,34 +276,9 @@ void NumVerticalTree::Set_pre_set(Node* ptr)
 void NumVerticalTree::ShowVector(vector<Item> arr)
 {
 	for (int i = 0; i < arr.size(); i++) {
-		//cout << arr[i].num << ":" << arr[i].times << " ";
+		cout << arr[i].num << ":" << arr[i].times << " ";
 	}
 	cout << endl;
-
-	//cout << "*****************************" << endl;
-	//cout << arr.back().num << ":" << arr.back().times << endl;
-	vector<vector<Item>> combine;
-	combine.resize((1 << (arr.size()-1)));
-	for (int i = 0; i < combine.size(); i++) {
-		bitset<20> foo(i);
-		//cout << foo << endl;
-		int min_times = arr.back().times;
-		for (int j = 0; j < arr.size()-1; j++) {
-			if(foo[j]==1){
-				combine[i].push_back(arr[j]);
-				cout << arr[j].num << " ";
-				if (min_times > arr[j].times) {
-					min_times = arr[j].times;
-				}
-			}
-		}
-		combine[i].push_back(arr.back());
-		cout << arr.back().num << " :";
-		cout << min_times;
-		cout << endl;
-	}
-	//cout << "*****************************" << endl;
-
 }
 
 void NumVerticalTree::ClearUnderSup()
