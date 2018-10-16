@@ -5,6 +5,8 @@
 #include <map>
 #include <algorithm>
 #include <bitset>  
+#include <ctime>
+#include <string>
 //#include <cmath>
 using namespace std;
 
@@ -12,6 +14,42 @@ struct Item
 {
 	int num;
 	int times;
+};
+class ItemList
+{
+public:
+	ItemList() {}
+	ItemList(vector<int> nums, int times);
+	bool isEqual(const ItemList& other);
+	void AddTimes(const int& times) { this->times_ += times; }
+	void AddValue(Item it);
+	int times() { return times_; }
+	void Set_times(int times) { this->times_ = times; }
+	void Show();
+private:
+	vector<int> nums_;
+	int times_;
+
+	int min(int a, int b) { return (a < b) ? a : b; }
+	//bitset<999> bit;
+
+};
+
+class Memory {
+public:
+	vector<ItemList> GetCombine(vector<Item> arr);
+private:
+	vector<ItemList> list_;
+	map<string, vector<ItemList>> memo_;
+	//map<vector<Item>, vector<ItemList>> memo_;
+
+	vector<ItemList> GetCombine_loop(vector<Item> arr, Item it);
+	bool FindCombine(vector<Item> arr);
+	vector<ItemList> AddCombine(Item it);
+	vector<ItemList> AddCombine(vector<Item> arr,vector<ItemList> list, Item it);
+	string hash(vector<Item> items);
+	vector<ItemList> GetOnlyWithTail(vector<ItemList> arr);
+
 };
 
 class NodePtr;
@@ -76,14 +114,22 @@ class NumVerticalTree : public Tree
 public:
 	NumVerticalTree(vector<NodePtr> list, double support_min);
 	void ShowTreeList();
+	void ShowCombine();
+	vector<vector<Item>> Get_pre_set() { return pre_set; }
 private:
 	double support_min;
 	vector<Item> temp;
 	vector<vector<Item>> pre_set;
+	vector<ItemList> combine;
+	Memory memo;
 
 	void Set(vector<NodePtr> list);
 	Node* SetLoop(Node* ptr, Node* ft_ptr, int times);
 	void Set_pre_set(Node* ptr);
+	void Set_combine();
+	void Set_combine(Memory& memo);
+	void Add_combine(ItemList& itemlist);
+	void Add_combine(vector<ItemList> list, int times);
 	void ShowVector(vector<Item> arr);
 	void ClearUnderSup();
 	void ClearUnderSup_loop(Node* ptr);
@@ -97,6 +143,7 @@ public:
 
 	void ShowOriginData();
 	void ShowOneNumFrequence();
+	void ShowTree();
 
 	void Show(int num);
 

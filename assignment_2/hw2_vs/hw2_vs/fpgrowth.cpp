@@ -46,6 +46,11 @@ void FPGrowth::ShowOneNumFrequence()
 		std::cout << it->first << " => " << it->second << '\n';
 }
 
+void FPGrowth::ShowTree()
+{
+	vtree_.Show();
+}
+
 void FPGrowth::SortDataByFrequenceForEachList()
 {
 	auto comp = [=](int a, int b) { return (num_frequence_map_[a] > num_frequence_map_[b]); };
@@ -84,13 +89,18 @@ void FPGrowth::SetHorizontalList()
 
 void FPGrowth::SetNumVerticalTreeList()
 {
+	int i = 0;
 	for (map<int, int>::iterator it = num_frequence_map_.begin(); it != num_frequence_map_.end(); ++it) {
+		cout << i << "/" << num_frequence_map_.size() << " " << it->first << endl;
+		i++;
+
 		int frequence = it->second;
 		if (frequence > support_min_num_) {
 			int num = it->first;
 			num_vtreelist_.push_back(NumVerticalTree(hlist_.GetList(num), support_min_num_));
 		}
 	}
+	cout << "finish" << endl;
 }
 
 map<int, int> FPGrowth::Get_num_index_map()
@@ -211,14 +221,6 @@ void HorizontalList::ShowParent(Node * ptr)
 	}
 }
 
-NumVerticalTree::NumVerticalTree(vector<NodePtr> list, double support_min)
-{
-	this->support_min = support_min;
-	Set(list);
-	ClearUnderSup();
-	Set_pre_set(this->root);
-}
-
 void NumVerticalTree::Set(vector<NodePtr> list)
 {
 	Node* root_ptr = root;
@@ -229,11 +231,52 @@ void NumVerticalTree::Set(vector<NodePtr> list)
 	}
 }
 
+NumVerticalTree::NumVerticalTree(vector<NodePtr> list, double support_min)
+{
+	this->support_min = support_min;
+	Set(list);
+	ClearUnderSup();
+	Set_pre_set(this->root);
+	//Set_combine(memo);
+
+	Show();
+	/*time_t t1, t2;
+	t1 = time(NULL);
+	Set_combine();
+	t2 = time(NULL);
+	cout << "time" << t2 - t1 << endl;*/
+}
+
 void NumVerticalTree::ShowTreeList()
 {
 	temp.clear();
 	for (int i = 0; i < pre_set.size(); i++) {
 		ShowVector(pre_set[i]);
+	}
+	cout << endl;
+
+	time_t t1, t2;
+
+	t1 = time(NULL);
+	Set_combine();
+	cout << "without memo" << endl;
+	//ShowCombine();
+	t2 = time(NULL);
+	cout << "time" << t2 - t1 << endl;
+	t1 = time(NULL);
+	this->combine.resize(0);
+	Set_combine(memo);
+	cout << "memo" << endl;
+	//ShowCombine();
+	t2 = time(NULL);
+	cout << "time" << t2 - t1 << endl;
+
+}
+
+void NumVerticalTree::ShowCombine()
+{
+	for (int i = 0; i < combine.size(); i++) {
+		combine[i].Show();
 	}
 }
 
@@ -264,9 +307,6 @@ Node * NumVerticalTree::SetLoop(Node * list_ptr, Node * tree_ptr, int times)
 
 void NumVerticalTree::Set_pre_set(Node* ptr)
 {
-	//if (ptr->childs_.size() == 0) {
-	//	pre_set.push_back(temp);
-	//}
 	for (int i = 0; i < ptr->childs_.size(); i++) {
 		Item item{ ptr->childs_[i].tptr_->num_ ,ptr->childs_[i].tptr_->times_ };
 		temp.push_back(item);
@@ -276,37 +316,110 @@ void NumVerticalTree::Set_pre_set(Node* ptr)
 	}
 }
 
+void NumVerticalTree::Set_combine()
+{
+
+	for (int i = 0; i < pre_set.size(); i++) {
+		//ShowVector(pre_set[i]);
+		
+		// 2^(pre_set.size()-1) 除了尾巴以外的組合
+		int size = (1 << (pre_set[i].size() - 1));
+		for (int j = 0; j < size; j++) {
+			vector<int> itemlist;
+			if ((pre_set[i].size() - 1) < 20) {
+				bitset<20> foo(j);
+				int min_times = pre_set[i].back().times;
+				for (int k = 0; k < pre_set[i].size() - 1; k++) {
+					if (foo[k] == 1) {
+						itemlist.push_back(pre_set[i][k].num);
+						if (min_times > pre_set[i][k].times) {
+							min_times = pre_set[i][k].times;
+						}
+					}
+				}
+				itemlist.push_back(pre_set[i].back().num);
+				ItemList it = ItemList(itemlist, min_times);
+				Add_combine(it);
+			} else if ((pre_set[i].size() - 1) < 100) {
+				bitset<100> foo(j);
+				int min_times = pre_set[i].back().times;
+				for (int k = 0; k < pre_set[i].size() - 1; k++) {
+					if (foo[k] == 1) {
+						itemlist.push_back(pre_set[i][k].num);
+						if (min_times > pre_set[i][k].times) {
+							min_times = pre_set[i][k].times;
+						}
+					}
+				}
+				itemlist.push_back(pre_set[i].back().num);
+				ItemList it = ItemList(itemlist, min_times);
+				Add_combine(it);
+			} else {
+				bitset<1000> foo(j);
+				int min_times = pre_set[i].back().times;
+				for (int k = 0; k < pre_set[i].size() - 1; k++) {
+					if (foo[k] == 1) {
+						itemlist.push_back(pre_set[i][k].num);
+						if (min_times > pre_set[i][k].times) {
+							min_times = pre_set[i][k].times;
+						}
+					}
+				}
+				itemlist.push_back(pre_set[i].back().num);
+				ItemList it = ItemList(itemlist, min_times);
+				Add_combine(it);
+			}
+			
+			//bitset<1000> foo(j);
+			//int min_times = pre_set[i].back().times;
+			//for (int k = 0; k < pre_set[i].size() - 1; k++) {
+			//	if (foo[k] == 1) {
+			//		itemlist.push_back(pre_set[i][k].num);
+			//		if (min_times > pre_set[i][k].times) {
+			//			min_times = pre_set[i][k].times;
+			//		}
+			//	}
+			//}
+			//itemlist.push_back(pre_set[i].back().num);
+			//ItemList it = ItemList(itemlist, min_times);
+			//Add_combine(it);
+		}
+		
+	}
+}
+
+void NumVerticalTree::Set_combine(Memory & memo)
+{
+	for (int i = 0; i < pre_set.size(); i++) {
+		Add_combine(memo.GetCombine(pre_set[i]), pre_set[i].back().times);
+	}
+}
+
+void NumVerticalTree::Add_combine(ItemList& itemlist)
+{
+	for (int i = 0; i < combine.size(); i++) {
+		if (combine[i].isEqual(itemlist)) {
+			combine[i].AddTimes(itemlist.times());
+			return;
+		}
+	}
+	combine.push_back(itemlist);
+}
+
+void NumVerticalTree::Add_combine(vector<ItemList> list, int times)
+{
+	for (int i = 0; i < list.size(); i++) {
+		list[i].Set_times(times);
+		Add_combine(list[i]);
+	}
+}
+
 void NumVerticalTree::ShowVector(vector<Item> arr)
 {
 	for (int i = 0; i < arr.size(); i++) {
-		//cout << arr[i].num << ":" << arr[i].times << " ";
+		cout << arr[i].num << ":" << arr[i].times << " ";
 	}
 	cout << endl;
-
-	//cout << "*****************************" << endl;
-	//cout << arr.back().num << ":" << arr.back().times << endl;
-	vector<vector<Item>> combine;
-	combine.resize((1 << (arr.size()-1)));
-	for (int i = 0; i < combine.size(); i++) {
-		bitset<20> foo(i);
-		//cout << foo << endl;
-		int min_times = arr.back().times;
-		for (int j = 0; j < arr.size()-1; j++) {
-			if(foo[j]==1){
-				combine[i].push_back(arr[j]);
-				cout << arr[j].num << " ";
-				if (min_times > arr[j].times) {
-					min_times = arr[j].times;
-				}
-			}
-		}
-		combine[i].push_back(arr.back());
-		cout << arr.back().num << " :";
-		cout << min_times;
-		cout << endl;
-	}
-	//cout << "*****************************" << endl;
-
 }
 
 void NumVerticalTree::ClearUnderSup()
@@ -323,4 +436,116 @@ void NumVerticalTree::ClearUnderSup_loop(Node * ptr)
 			i--;
 		}
 	}
+}
+
+ItemList::ItemList(vector<int> nums, int times)
+{
+	this->nums_ = nums;
+	this->times_ = times;
+}
+
+bool ItemList::isEqual(const ItemList & other)
+{
+	bool aaa = (this->nums_ == other.nums_);
+	int a = 0;
+	return aaa;
+}
+
+void ItemList::AddValue(Item it)
+{
+	nums_.push_back(it.num);
+	times_ = min(times_, it.times);
+}
+
+void ItemList::Show()
+{
+	for (int i = 0; i < nums_.size(); i++) {
+		cout << nums_[i] << " ";
+	}
+	cout << ": " << times_ << endl;
+}
+
+vector<ItemList> Memory::GetCombine(vector<Item> arr)
+{
+	if (FindCombine(arr)) {
+		return GetOnlyWithTail(memo_[hash(arr)]);
+	} else {
+		Item tail = arr.back();
+		arr.pop_back();
+		return GetOnlyWithTail(GetCombine_loop(arr, tail));
+	}
+}
+
+vector<ItemList> Memory::GetCombine_loop(vector<Item> arr, Item it)
+{
+	if (arr.size() == 0) {
+		return AddCombine(it);
+	} else if (FindCombine(arr)) {
+		return AddCombine(arr,memo_[hash(arr)], it);
+	} else{
+		Item tail = arr.back();
+		//arr.pop_back();
+		return AddCombine(arr, GetCombine_loop(vector<Item>(arr.begin(),arr.end()-1), tail), it);
+	}
+}
+
+bool Memory::FindCombine(vector<Item> arr)
+{
+	return (memo_.count(hash(arr)) != 0);
+}
+
+vector<ItemList> Memory::AddCombine(Item it)
+{
+	vector<Item> items;
+	items.push_back(it);
+
+	vector<int> nums;
+	nums.push_back(it.num);
+	vector<ItemList> lists;
+	lists.push_back(ItemList(nums, it.times));
+	memo_[hash(items)] = lists;
+
+	return lists;
+}
+
+vector<ItemList> Memory::AddCombine(vector<Item> arr, vector<ItemList> list, Item it)
+{
+	arr.push_back(it);
+
+	vector<int> nums;
+	nums.push_back(it.num);
+	//for (int i = 0; i < arr.size(); i++) {
+	//	nums.push_back(arr[i].num);
+	//}
+	
+
+	int length = list.size();
+	list.resize((length * 2) + 1);
+	for (int i = 0; i < length; i++) {
+		ItemList itlist = list[i];
+		itlist.AddValue(it);
+		list[length + i] = itlist;
+	}
+	list[list.size() - 1] = ItemList(nums, it.times);
+	memo_[hash(arr)] = list;
+
+	return list;
+}
+
+string Memory::hash(vector<Item> list)
+{
+	if (list.empty()) {
+		return "0";
+	}
+	string str = to_string(list.size());
+	str = str + to_string(list.front().num);
+	str = str + to_string(list.back().num);
+	return str;
+}
+
+vector<ItemList> Memory::GetOnlyWithTail(vector<ItemList> arr)
+{
+	int size = arr.size();
+	int head = size / 2;
+	return vector<ItemList>(arr.begin()+head,arr.end());
 }
